@@ -1,7 +1,6 @@
 //Ban quyen bot thuoc ve "Nguyen Phuoc" - CarPup
 #include <bits/stdc++.h>
 #include "random.h"
-#include <string>
 #include "time.h"
 #include "tiengviet.h"
 using namespace myRandom;
