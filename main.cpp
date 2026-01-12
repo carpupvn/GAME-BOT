@@ -12,7 +12,7 @@ int main() {
     string username;
     print << " Vui lòng nhập username: ";
     getline(scan,username);
-    string PhienBan = "2.2.120126", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    string PhienBan = "2.3.120126", pass = "cudem1981", TacGia = "NguyenPhuoc";
     long long HuCL = 5000000, HuTX = 5000000, coin = 100000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
@@ -43,10 +43,10 @@ ChuKy:
     if (a == "exit") {
         print << "\n";
         for (int i = 4; i!= 0; i--) {
-            print << "\rChương trình sẽ tắt sau: " << i-1 << " " << flush;
+            print << "\rChương trình sẽ tắt sau: " << i-1 << " " ;
             wait(1s);
         }
-        print << "\rChương trình đã tắt!       " << flush;
+        print << "\rChương trình đã tắt!       " ;
         return 0;
     } else if (a == "game") {
         string b;
@@ -179,10 +179,10 @@ ChuKy:
             }
             print << "\n";
             for (int i = 61; i != 0 ; i--) {
-                print << "\rThời gian còn lại: " << i - 1 << "   " << flush;
+                print << "\rThời gian còn lại: " << i - 1 << "   " ;
                 wait(1s);
             }
-            print << "\r---Kết Quả Trò Chơi-------------------------------" << flush;
+            print << "\r---Kết Quả Trò Chơi-------------------------------" ;
             print << "\n Xúc sắc 1: " << dice1;
             print << "\n Xúc sắc 2: " << dice2;
             print << "\n Xúc sắc 3: " << dice3;
@@ -230,10 +230,10 @@ ChuKy:
             }
             print << "\n";
             for (int i = 61; i != 0 ; i--) {
-                print << "\rThời gian còn lại: " << i - 1 << "   " << flush;
+                print << "\rThời gian còn lại: " << i - 1 << "   " ;
                 wait(1s);
             }
-            print << "\r---Kết Quả Trò Chơi-------------------------------" << flush;
+            print << "\r---Kết Quả Trò Chơi-------------------------------" ;
             print << "\n Kết quả 1: " << DiceBC1;
             print << "\n Kết quả 2: " << DiceBC2;
             print << "\n Kết quả 3: " << DiceBC3;
@@ -311,10 +311,10 @@ ChuKy:
             PTKetQuaVQMM = RanInt(0,100);
             print << "\n";
             for (int i = 4; i != 0; i--) {
-                print << "\rThời gian còn lại: " << i - 1 << " " << flush;
+                print << "\rThời gian còn lại: " << i - 1 << " " ;
                 wait(1s);
             }
-            print << "\r---Dự Đoán Tên Người Yêu Tương Lai----------------" << flush;
+            print << "\r---Dự Đoán Tên Người Yêu Tương Lai----------------" ;
             print << "\n Người cần mai mới: " << username;
             print << "\n Kết quả vòng quay mai mới: " << KetQuaVQMM;
             print << "\n Độ phù hợp: " << PTKetQuaVQMM << "%";
@@ -375,10 +375,10 @@ ChuKy:
                 int KetQuaBTY = RanInt(0,100);
                 print << "\n";
                 for (int i = 6; i != 0; i--) {
-                    print << "\rThời gian còn lại: " << i-1 << flush;
+                    print << "\rThời gian còn lại: " << i-1 ;
                     wait(1s);
                 }
-                print << "\r---Kết Quả Bói Tình Yêu---------------------------" << flush;
+                print << "\r---Kết Quả Bói Tình Yêu---------------------------" ;
                 print << "\n Kết quả giữa " << c << " & " << d << " là: " << KetQuaBTY << "%";
                 print << "\n--------------------------------------------------";
                 goto ChuKy;
