@@ -1,6 +1,6 @@
 ---GAMEBOT - NOTE---
 Ngôn ngữ lập trình được sử dụng: C++
-Phiên bản: 2.1.120126
+Phiên bản: 2.2.120126
 Hỗ trợ hệ điều hành: Mọi hệ điều hành
 Vui lòng tải xuống đủ các file để bot có thể chạy!
 *Nên sử dụng CodeBlocks bản MinGW
