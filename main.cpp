@@ -11,7 +11,7 @@ int main() {
     string username;
     print << " Vui lòng nhập username: ";
     getline(scan,username);
-    string PhienBan = "2.3.120126", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    string PhienBan = "2.4.150126", pass = "cudem1981", TacGia = "NguyenPhuoc";
     long long HuCL = 5000000, HuTX = 5000000, coin = 100000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
@@ -529,7 +529,7 @@ ChuKy:
         print << "\n botinfo: Xem thông tin bot";
         print << "\n banquyen: Xem bản quyền bot";
         print << "\n thayten <username>: Thay username";
-        print << "\n *ác lệnh admin sẽ không được hiển thị ở đây*";
+        print << "\n *Các lệnh admin sẽ không được hiển thị ở đây*";
         print << "\n *Nhập lệnh vui lòng không viết hoa và bỏ dấu*";
         print << "\n--------------------------------------------------";
         goto ChuKy;
@@ -564,7 +564,7 @@ ChuKy:
                 scan.ignore(1000, '\n');
             } else {
             coin += c;
-            print << "\n---Dã Sửa Hệ Thống--------------------------------";
+            print << "\n---Đã Sửa Hệ Thống--------------------------------";
             print << "\n Số coin hiện tại: " << coin;
             print << "\n *Vui lòng không làm dụng lệnh admin!*";
             print << "\n--------------------------------------------------";
@@ -584,6 +584,7 @@ ChuKy:
             print << "\n buff: Nâng coin";
             print << "\n nerf: Giảm coin";
             print << "\n hack: Nâng coin và hu các game lên giá trị nhất định";
+            print << "\n set: Thiết lập số coin";
             print << "\n *Vui lòng không làm dụng lệnh admin!*";
             print << "\n--------------------------------------------------";
             goto ChuKy;
@@ -604,7 +605,30 @@ ChuKy:
                 scan.ignore(1000, '\n');
             } else {
             coin -= c;
-            print << "\n---Dã Sửa Hệ Thống--------------------------------";
+            print << "\n---Đã Sửa Hệ Thống--------------------------------";
+            print << "\n Số coin hiện tại: " << coin;
+            print << "\n *Vui lòng không làm dụng lệnh admin!*";
+            print << "\n--------------------------------------------------";
+            goto ChuKy;
+            }
+        } else {
+            print << "\nMật khẩu sai!";
+            goto ChuKy;
+        }
+    } else if (a == "set") {
+        print << "\n Vui lòng nhập mật khẩu để sử dụng: ";
+        string b;
+        scan >> b;
+        if (b == pass) {
+            print << "\n Vui lòng nhập số coin muốn thiết lập: ";
+            long long c;
+            scan >> c;
+            if (c < 0) {
+                jumped = true;
+                scan.ignore(1000, '\n');
+            } else {
+            coin = c;
+            print << "\n---Đã Sửa Hệ Thống--------------------------------";
             print << "\n Số coin hiện tại: " << coin;
             print << "\n *Vui lòng không làm dụng lệnh admin!*";
             print << "\n--------------------------------------------------";
@@ -618,7 +642,7 @@ ChuKy:
         string b;
         getline(scan,b);
         username = b;
-        print << "\n---Dã Sửa Hệ Thống--------------------------------";
+        print << "\n---Đã Sửa Hệ Thống--------------------------------";
         print << "\n Username mới của bạn: " << username;
         print << "\n--------------------------------------------------";
         goto ChuKy;
