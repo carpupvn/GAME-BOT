@@ -3,7 +3,6 @@
 #include "random.h"
 #include "time.h"
 #include "tiengviet.h"
-using namespace myRandom;
 using namespace std;
 
 int main() {
@@ -11,11 +10,11 @@ int main() {
     string username;
     print << " Vui lòng nhập username: ";
     getline(scan,username);
-    string PhienBan = "2.4.150126", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    string PhienBan = "2.5.0802269 (beta)", pass = "cudem1981", TacGia = "NguyenPhuoc";
     long long HuCL = 5000000, HuTX = 5000000, coin = 100000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
-    print << "\n Số game được hỗ trợ: 8";
+    print << "\n Số game được hỗ trợ: 9";
     print << "\n Sử dụng 'help' để xem danh sách lệnh được hỗ trợ";
     print << "\n Số coin hiện tại: " << coin;
     print << "\n Liên hệ hỗ trợ: 0936974180";
@@ -381,6 +380,102 @@ ChuKy:
                 print << "\n Kết quả giữa " << c << " & " << d << " là: " << KetQuaBTY << "%";
                 print << "\n--------------------------------------------------";
                 goto ChuKy;
+            } else if (b == "caro") {
+                int c[3][3] = {
+                    {0, 0, 0},
+                    {0, 0, 0},
+                    {0, 0, 0}
+                };
+                int e = -1, f = -1;
+                string KetQuaCR = "";
+                string KetQuaCRTB = "";
+                bool WinCR = false;
+                print << "\n Hướng dẫn nhanh:";
+                print << "\n Đây là vị trí của các ô:";
+                print << "\n  0 0 | 0 1 | 0 2 ";
+                print << "\n -----------------";
+                print << "\n  1 0 | 1 1 | 1 2 ";
+                print << "\n -----------------";
+                print << "\n  2 0 | 2 1 | 2 2 ";
+                print << "\n\n -> Khi được yêu cầu điền ô, Vui lòng nhập vị trí ô muốn điền";
+                print << "\nVui lòng chọn chế độ chơi!";
+                print << "\n2: Chế độ chơi 2 người";
+                print << "\n1: Chế độ chơi 1 người";
+                print << "\n Chọn chế độ chơi: ";
+                int d = 0;
+                scan >> d;
+                if (d == 1) {
+                    print << "\n Đã chọn chế độ chơi 1 người";
+                    ChuKyCR1:
+                    print << "\n Nhập vị trí ô: ";
+                    scan >> e >> f;
+                    if (c[e][f] == 0) {
+                        c[e][f] = 1;
+                    } else {
+                        print << "Ô này đã được chọn! Vui lòng chọn ô khác!";
+                        goto ChuKyCR1;
+                    }
+                    if (((c[0][0] == c[0][1]) && (c[0][0] == c[0][2]) || (c[0][0] == c[1][0]) && (c[0][0] == c[2][0]) || (c[0][0] == c[1][1]) && (c[0][0] == c[2][2])) && c[0][0] != 0) {
+                        if (c[0][0] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    } else if (((c[1][1] == c[0][1]) && (c[1][1] == c[2][1]) || (c[1][1] == c[1][0]) && (c[1][1] == c[1][2]) || (c[1][1] == c[0][2]) && (c[1][1] == c[2][0])) && c[1][1] != 0) {
+                        if (c[1][1] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    } else if (((c[2][2] == c[2][1]) && (c[2][2] == c[2][0]) || (c[2][2] == c[1][2]) && (c[2][2] == c[0][2])) && c[2][2] != 0) {
+                        if (c[2][2] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    }
+                    ChuKyCR11:
+                    e = RanInt(0, 2);
+                    f = RanInt(0, 2);
+                    if (c[e][f] == 0) {
+                        c[e][f] = 2;
+                        print << "\n Bàn cờ hiện tại:";
+                        print << "\n " << c[0][0] << " | " <<  c[0][1] << " | " << c[0][2];
+                        print << "\n-----------";
+                        print << "\n " << c[1][0] << " | " <<  c[1][1] << " | " << c[1][2];
+                        print << "\n-----------";
+                        print << "\n " << c[2][0] << " | " <<  c[2][1] << " | " << c[2][2];
+                    } else {
+                        goto ChuKyCR11;
+                    }
+                    if (((c[0][0] == c[0][1]) && (c[0][0] == c[0][2]) || (c[0][0] == c[1][0]) && (c[0][0] == c[2][0]) || (c[0][0] == c[1][1]) && (c[0][0] == c[2][2])) && c[0][0] != 0) {
+                        if (c[0][0] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    } else if (((c[1][1] == c[0][1]) && (c[1][1] == c[2][1]) || (c[1][1] == c[1][0]) && (c[1][1] == c[1][2]) || (c[1][1] == c[0][2]) && (c[1][1] == c[2][0])) && c[1][1] != 0) {
+                        if (c[1][1] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    } else if (((c[2][2] == c[2][1]) && (c[2][2] == c[2][0]) || (c[2][2] == c[1][2]) && (c[2][2] == c[0][2])) && c[2][2] != 0) {
+                        if (c[2][2] == 1) KetQuaCR = username;
+                        else KetQuaCR = "Robot";
+                        WinCR = true;
+                    } else goto ChuKyCR1;
+                    if (WinCR) {
+                        if (KetQuaCR == username) {
+                            KetQuaCRTB = "Bạn đã thắng!";
+                        } else {
+                            KetQuaCRTB = "Bạn đã thua!";
+                        }
+                        print << "\n---Kết Thúc Trò Chơi--------------------------------";
+                        print << "\n Chiến thắng: " << KetQuaCR;
+                        print << "\n -> " << KetQuaCRTB;
+                        print << "\n Số coin hiện tại: " << coin;
+                        print << "\n *Đây là game bản thử nghiệm nên chưa có hệ thống xử lí tiền*";
+                        print << "\n----------------------------------------------------";
+                    }
+                } else if (d == 2) {
+                    print << "\nXin lỗi, bản thử nghiệm chưa hỗ trợ chế độ chơi 2 người.";
+                } else {
+                    jumped = true;
+                    scan.ignore(1000, '\n');
+                    goto Loi;
+                }
+                goto ChuKy;
             } else if (b == "huongdan") {
             string c;
             scan >> c;
@@ -394,7 +489,7 @@ ChuKy:
                 print << "\n Nếu kết quả cược trùng kết quả máy đưa ra -> Bạn thắng";
                 print << "\n Nếu không -> Bạn thua";
                 print << "\n Nếu xúc xắc ra 3 số giống nhau -> Jackpot";
-                print << "\n òn thắc mắc vui lòng liên hệ: 0936974180(Zalo)";
+                print << "\n Còn thắc mắc vui lòng liên hệ: 0936974180(Zalo)";
                 print << "\n--------------------------------------------------";
             } else if (c == "taixiu") {
                 print << "\n---Hướng dẫn game---------------------------------";

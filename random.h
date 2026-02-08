@@ -4,7 +4,7 @@
 #include <random>
 #include <string>
 
-namespace myRandom {
+namespace std {
     static std::mt19937 gen(std::random_device{}());
 
     inline int RanInt(int a, int b) {
