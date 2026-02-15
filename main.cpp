@@ -10,7 +10,7 @@ int main() {
     string username;
     print << " Vui lòng nhập username: ";
     getline(scan,username);
-    string PhienBan = "2.5.0802269 (beta)", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    string PhienBan = "2.5.150226", pass = "cudem1981", TacGia = "NguyenPhuoc";
     long long HuCL = 5000000, HuTX = 5000000, coin = 100000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
@@ -281,7 +281,7 @@ ChuKy:
                 scan.ignore(1000, '\n');
                 goto Loi;
             }
-            KetQuaVQ = RanStrList("+100", "x2", "-50", "Jackpot", "Mất hết", "Hoàn tiền");
+            KetQuaVQ = RanStrList("+100", "x2", "-50", "Jackpot", "Mất hết", "Hoàn coin");
             coin -= c;
             if (KetQuaVQ == "+100") {
                 coin += c + 100;
@@ -298,13 +298,13 @@ ChuKy:
             }
             print << "\n---Kết Quả Trò Chơi-------------------------------";
             print << "\n Kết quả vòng quay: " << KetQuaVQ;
-            print << "\n Số tiền đặt cược: " << c;
+            print << "\n Số coin đặt cược: " << c;
             print << "\n Số coin hiện tại: " << coin;
             print << "\n--------------------------------------------------";
             goto ChuKy;
         } else if (b == "vongquaymaimoi") {
             string KetQuaVQMM;
-            KetQuaVQMM = RanStrList("A", "B", "C", "D", "Đ", "E", "Ê", "G", "H", "I", "K", "L", "M", "N", "O", "Ô", "Ơ", "P", "Q", "R", "S","T", "U", "Ư", "V", "X", "Y");
+            KetQuaVQMM = RanStrList("A", "Ă", "Â", "B", "C", "D", "Đ", "E", "Ê", "G", "H", "I", "K", "L", "M", "N", "O", "Ô", "Ơ", "P", "Q", "R", "S","T", "U", "Ư", "V", "X", "Y");
             int PTKetQuaVQMM;
             PTKetQuaVQMM = RanInt(0,100);
             print << "\n";
@@ -381,95 +381,221 @@ ChuKy:
                 print << "\n--------------------------------------------------";
                 goto ChuKy;
             } else if (b == "caro") {
-                int c[3][3] = {
-                    {0, 0, 0},
-                    {0, 0, 0},
-                    {0, 0, 0}
+                long long c = 0;
+                cin >> c;
+                if (c < 0 || c > coin) {
+                    jumped = true;
+                    scan.ignore(1000, '\n');
+                    goto Loi;
+                }
+                bool Error = false, End = false, Tie;
+                char chess[3][3] = {
+                    {' ', ' ', ' '},
+                    {' ', ' ', ' '},
+                    {' ', ' ', ' '}
                 };
-                int e = -1, f = -1;
-                string KetQuaCR = "";
-                string KetQuaCRTB = "";
-                bool WinCR = false;
-                print << "\n Hướng dẫn nhanh:";
-                print << "\n Đây là vị trí của các ô:";
-                print << "\n  0 0 | 0 1 | 0 2 ";
-                print << "\n -----------------";
-                print << "\n  1 0 | 1 1 | 1 2 ";
-                print << "\n -----------------";
-                print << "\n  2 0 | 2 1 | 2 2 ";
-                print << "\n\n -> Khi được yêu cầu điền ô, Vui lòng nhập vị trí ô muốn điền";
-                print << "\nVui lòng chọn chế độ chơi!";
-                print << "\n2: Chế độ chơi 2 người";
-                print << "\n1: Chế độ chơi 1 người";
-                print << "\n Chọn chế độ chơi: ";
-                int d = 0;
-                scan >> d;
-                if (d == 1) {
-                    print << "\n Đã chọn chế độ chơi 1 người";
-                    ChuKyCR1:
-                    print << "\n Nhập vị trí ô: ";
-                    scan >> e >> f;
-                    if (c[e][f] == 0) {
-                        c[e][f] = 1;
-                    } else {
-                        print << "Ô này đã được chọn! Vui lòng chọn ô khác!";
-                        goto ChuKyCR1;
-                    }
-                    if (((c[0][0] == c[0][1]) && (c[0][0] == c[0][2]) || (c[0][0] == c[1][0]) && (c[0][0] == c[2][0]) || (c[0][0] == c[1][1]) && (c[0][0] == c[2][2])) && c[0][0] != 0) {
-                        if (c[0][0] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    } else if (((c[1][1] == c[0][1]) && (c[1][1] == c[2][1]) || (c[1][1] == c[1][0]) && (c[1][1] == c[1][2]) || (c[1][1] == c[0][2]) && (c[1][1] == c[2][0])) && c[1][1] != 0) {
-                        if (c[1][1] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    } else if (((c[2][2] == c[2][1]) && (c[2][2] == c[2][0]) || (c[2][2] == c[1][2]) && (c[2][2] == c[0][2])) && c[2][2] != 0) {
-                        if (c[2][2] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    }
-                    ChuKyCR11:
-                    e = RanInt(0, 2);
-                    f = RanInt(0, 2);
-                    if (c[e][f] == 0) {
-                        c[e][f] = 2;
-                        print << "\n Bàn cờ hiện tại:";
-                        print << "\n " << c[0][0] << " | " <<  c[0][1] << " | " << c[0][2];
-                        print << "\n-----------";
-                        print << "\n " << c[1][0] << " | " <<  c[1][1] << " | " << c[1][2];
-                        print << "\n-----------";
-                        print << "\n " << c[2][0] << " | " <<  c[2][1] << " | " << c[2][2];
-                    } else {
-                        goto ChuKyCR11;
-                    }
-                    if (((c[0][0] == c[0][1]) && (c[0][0] == c[0][2]) || (c[0][0] == c[1][0]) && (c[0][0] == c[2][0]) || (c[0][0] == c[1][1]) && (c[0][0] == c[2][2])) && c[0][0] != 0) {
-                        if (c[0][0] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    } else if (((c[1][1] == c[0][1]) && (c[1][1] == c[2][1]) || (c[1][1] == c[1][0]) && (c[1][1] == c[1][2]) || (c[1][1] == c[0][2]) && (c[1][1] == c[2][0])) && c[1][1] != 0) {
-                        if (c[1][1] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    } else if (((c[2][2] == c[2][1]) && (c[2][2] == c[2][0]) || (c[2][2] == c[1][2]) && (c[2][2] == c[0][2])) && c[2][2] != 0) {
-                        if (c[2][2] == 1) KetQuaCR = username;
-                        else KetQuaCR = "Robot";
-                        WinCR = true;
-                    } else goto ChuKyCR1;
-                    if (WinCR) {
-                        if (KetQuaCR == username) {
-                            KetQuaCRTB = "Bạn đã thắng!";
+                wait(0.5s);
+                print << "\n---CỜ CARO----------------------------------------"
+                      << "\n Bàn cờ có dạng:"
+                      << "\n    0   1   2"
+                      << "\n 0    |   |   "
+                      << "\n   ---|---|---"
+                      << "\n 1    |   |   "
+                      << "\n   ---|---|---"
+                      << "\n 2    |   |   "
+                      << "\n--------------------------------------------------"
+                      << "\n Các vị trí được đánh số '0, 1, 2' là đánh số vị trí của ô"
+                      << "\n Vị trí nhập theo thứ tự ngang trước, dọc sau. VD: 0 1"
+                      << "\n Để thoát game, nhập: -1 -1";
+                print << "\nChọn chế độ chơi\n1: 1 người\n2: 2 người (Không hỗ trợ xử lí coin)\n0: Thoát game\n Trả lời: ";
+                char TraLoi;
+                scan >> TraLoi;
+                if (!(isdigit(TraLoi))) {
+                    jumped = true;
+                    scan.ignore(1000, '\n');
+                    goto Loi;
+                }
+                if (TraLoi == '1') {
+                    int y = -2, x = -2;
+                    while(true) {
+                        Tie = true;
+                        print << "\n  Nhập vị trí: ";
+                        scan >> x >> y;
+                        if (y == -1 || x == -1) {
+                            print << "\nĐã thoát chương trình";
+                            return 0;
+                        } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
+                            Error = true;
+                            break;
                         } else {
-                            KetQuaCRTB = "Bạn đã thua!";
+                            chess[y][x] = 'X';
+                        } if (Error) {
+                            print << "\n------PHÁT HIỆN LỖI! VUI LÒNG NHẬP LẠI------";
+                            continue;
                         }
-                        print << "\n---Kết Thúc Trò Chơi--------------------------------";
-                        print << "\n Chiến thắng: " << KetQuaCR;
-                        print << "\n -> " << KetQuaCRTB;
-                        print << "\n Số coin hiện tại: " << coin;
-                        print << "\n *Đây là game bản thử nghiệm nên chưa có hệ thống xử lí tiền*";
-                        print << "\n----------------------------------------------------";
+                        print << "\n Bàn cờ hiện tại: "
+                              << "\n    0   1   2"
+                              << "\n 0  " << chess[0][0] << " | " << chess[0][1] << " | " << chess[0][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 1  " << chess[1][0] << " | " << chess[1][1] << " | " << chess[1][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 2  " << chess[2][0] << " | " << chess[2][1] << " | " << chess[2][2] << " ";
+                        if ((((chess[0][0] == chess[0][1] && chess[0][0] == chess[0][2]) || (chess[0][0] == chess[1][1] && chess[0][0] == chess[2][2]) || (chess[0][0] == chess[1][0]  && chess[0][0] == chess[2][0])) && chess[0][0] != ' ') || (((chess[1][1] == chess[0][1] && chess[1][1] == chess[2][1]) || (chess[1][1] == chess[1][0] && chess[1][1] == chess[1][2]) || (chess[1][1] == chess[2][0]  && chess[1][1] == chess[0][2])) && chess[1][1] != ' ') || (((chess[2][2] == chess[2][1] && chess[2][2] == chess[2][0]) || (chess[2][2] == chess[1][2] && chess[2][2] == chess[0][2])) && chess[2][2] != ' ')) {
+                            coin += c;
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Bạn đã thắng";
+                            print << "\n Số coin hiện tại: " << coin;
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                if (chess[i][j] == ' ') {
+                                    Tie = false;
+                                }
+                            }
+                        }
+                        if (Tie) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Hòa";
+                            print << "\n Số coin hiện tại" << coin;
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                        y = -2, x = -2;
+                        while ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
+                            y = RanInt(0, 2);
+                            x = RanInt(0, 2);
+                        }
+                        chess[y][x] = 'O';
+                        print << "\nBot đang xử lí...";
+                        wait(3s);
+                        print << "\r"
+                              << "\n Bàn cờ hiện tại: "
+                              << "\n    0   1   2"
+                              << "\n 0  " << chess[0][0] << " | " << chess[0][1] << " | " << chess[0][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 1  " << chess[1][0] << " | " << chess[1][1] << " | " << chess[1][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 2  " << chess[2][0] << " | " << chess[2][1] << " | " << chess[2][2] << " ";
+                        if ((((chess[0][0] == chess[0][1] && chess[0][0] == chess[0][2]) || (chess[0][0] == chess[1][1] && chess[0][0] == chess[2][2]) || (chess[0][0] == chess[1][0]  && chess[0][0] == chess[2][0])) && chess[0][0] != ' ') || (((chess[1][1] == chess[0][1] && chess[1][1] == chess[2][1]) || (chess[1][1] == chess[1][0] && chess[1][1] == chess[1][2]) || (chess[1][1] == chess[2][0]  && chess[1][1] == chess[0][2])) && chess[1][1] != ' ') || (((chess[2][2] == chess[2][1] && chess[2][2] == chess[2][0]) || (chess[2][2] == chess[1][2] && chess[2][2] == chess[0][2])) && chess[2][2] != ' ')) {
+                            coin -= c;
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Bạn đã thua";
+                            print << "\n Số coin hiện tại" << coin;
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                if (chess[i][j] == ' ') {
+                                    Tie = false;
+                                }
+                            }
+                        }
+                        if (Tie) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Hòa";
+                            print << "\n Số coin hiện tại" << coin;
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
                     }
-                } else if (d == 2) {
-                    print << "\nXin lỗi, bản thử nghiệm chưa hỗ trợ chế độ chơi 2 người.";
+                } else if (TraLoi == '2') {
+                    int y = -2, x = -2;
+                    while(true) {
+                        Tie = true;
+                        print << "\n  Nhập vị trí(1): ";
+                        scan >> x >> y;
+                        if (y == -1 || x == -1) {
+                            print << "\nĐã thoát chương trình";
+                            return 0;
+                        } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
+                            Error = true;
+                            break;
+                        } else {
+                            chess[y][x] = 'X';
+                        } if (Error) continue;
+                        print << "\n Bàn cờ hiện tại: "
+                              << "\n    0   1   2"
+                              << "\n 0  " << chess[0][0] << " | " << chess[0][1] << " | " << chess[0][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 1  " << chess[1][0] << " | " << chess[1][1] << " | " << chess[1][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 2  " << chess[2][0] << " | " << chess[2][1] << " | " << chess[2][2] << " ";
+                        if ((((chess[0][0] == chess[0][1] && chess[0][0] == chess[0][2]) || (chess[0][0] == chess[1][1] && chess[0][0] == chess[2][2]) || (chess[0][0] == chess[1][0]  && chess[0][0] == chess[2][0])) && chess[0][0] != ' ') || (((chess[1][1] == chess[0][1] && chess[1][1] == chess[2][1]) || (chess[1][1] == chess[1][0] && chess[1][1] == chess[1][2]) || (chess[1][1] == chess[2][0]  && chess[1][1] == chess[0][2])) && chess[1][1] != ' ') || (((chess[2][2] == chess[2][1] && chess[2][2] == chess[2][0]) || (chess[2][2] == chess[1][2] && chess[2][2] == chess[0][2])) && chess[2][2] != ' ')) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Người chơi 1 thắng";
+                            print << "\n Không hỗ trợ xử lí coin trong chế độ chơi 2 người";
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }       
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                if (chess[i][j] == ' ') {
+                                    Tie = false;
+                                }
+                            }
+                        }
+                        if (Tie) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Hòa";
+                            print << "\n Không hỗ trợ xử lí coin trong chế độ chơi 2 người";
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                        y = -2, x = -2;
+                        print << "\n  Nhập vị trí(2): ";
+                        scan >> x >> y;
+                        if (y == -1 || x == -1) {
+                            print << "\nĐã thoát game!";
+                            goto ChuKy;
+                        } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
+                            Error = true;
+                            break;
+                        } else {
+                            chess[y][x] = 'O';
+                        } if (Error) continue;
+                        print << "\n Bàn cờ hiện tại: "
+                              << "\n    0   1   2"
+                              << "\n 0  " << chess[0][0] << " | " << chess[0][1] << " | " << chess[0][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 1  " << chess[1][0] << " | " << chess[1][1] << " | " << chess[1][2] << " "
+                              << "\n   ---|---|---"
+                              << "\n 2  " << chess[2][0] << " | " << chess[2][1] << " | " << chess[2][2] << " ";
+                    if ((((chess[0][0] == chess[0][1] && chess[0][0] == chess[0][2]) || (chess[0][0] == chess[1][1] && chess[0][0] == chess[2][2]) || (chess[0][0] == chess[1][0]  && chess[0][0] == chess[2][0])) && chess[0][0] != ' ') || (((chess[1][1] == chess[0][1] && chess[1][1] == chess[2][1]) || (chess[1][1] == chess[1][0] && chess[1][1] == chess[1][2]) || (chess[1][1] == chess[2][0]  && chess[1][1] == chess[0][2])) && chess[1][1] != ' ') || (((chess[2][2] == chess[2][1] && chess[2][2] == chess[2][0]) || (chess[2][2] == chess[1][2] && chess[2][2] == chess[0][2])) && chess[2][2] != ' ')) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Người chơi 2 thắng";
+                            print << "\n Không hỗ trợ xử lí coin trong chế độ chơi 2 người";
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0; j < 3; j++) {
+                                if (chess[i][j] == ' ') {
+                                   Tie = false;
+                                }
+                            }
+                        }
+                        if (Tie) {
+                            wait(1s);
+                            print << "\n---Kết Quả Trò Chơi-------------------------------";
+                            print << "\n -> Hòa";
+                            print << "\n Không hỗ trợ xử lí coin trong chế độ chơi 2 người";
+                            print << "\n--------------------------------------------------";
+                            break;
+                        }
+                    }
+                } else if (TraLoi == '0') {
+                    print << "Đã thoát game!";
+                    goto ChuKy;
                 } else {
                     jumped = true;
                     scan.ignore(1000, '\n');
@@ -551,7 +677,15 @@ ChuKy:
                 print << "\n Cú pháp: game boitinhyeu";
                 print << "\n -> Nhập lần lượt tên người thứ nhất và người thứ hai";
                 print << "\n Hệ thống sẽ random mức độ phù hợp của 2 người";
-                print << "\n òn thắc mắc vui lòng liên hệ: 0936974180(Zalo)";
+                print << "\n Còn thắc mắc vui lòng liên hệ: 0936974180(Zalo)";
+                print << "\n--------------------------------------------------";
+            } else if (c == "caro") {
+                print << "\n---Hướng dẫn game---------------------------------";
+                print << "\n Cú pháp: game caro <số coin>";
+                print << "\n -> Chơi cờ caro (3 x 3) với người hoặc máy kèm cược số coin";
+                print << "\n Hệ thống chạy theo phiên, người chơi luôn bắt đầu trước";
+                print << "\n Hệ thống chỉ hỗ trợ xử lí coin ở chế độ 1 người";
+                print << "\n Còn thắc mắc vui lòng liên hệ: 0936974180(Zalo)";
                 print << "\n--------------------------------------------------";
             } else {
                 jumped = true;
@@ -635,15 +769,16 @@ ChuKy:
         goto ChuKy;
     } else if (a == "gamehelp") {
         print << "\n---Danh Sách Các Trò Chơi Có Thể Chơi-------------";
-        print << "\n chanle: Cuoc chan/le -> Cú pháp: game chanle [chan/le] <so coin>";
-        print << "\n taixiu: Cuoc tai/xiu -> Cú pháp: game taixiu [tai/xiu] <so coin>";
-        print << "\n baucua: Cuoc bau/cua/tom/ca/nai/ga -> Cú pháp: game bau cua [bau/cua/tom/ca/nai/ga] <so coin>";
-        print << "\n keobuabao: Cuoc keo/bua/bao -> Cú pháp: game keobuabao [keo/bua/bao] <so coin>";
-        print << "\n vongquay: Quay ngẫu nhiên giải thưởng -> Cú pháp: game vongquay <so coin>";
+        print << "\n chanle: Cược chan/le -> Cú pháp: game chanle [chan/le] <số coin>";
+        print << "\n taixiu: Cược tai/xiu -> Cú pháp: game taixiu [tai/xiu] <số coin>";
+        print << "\n baucua: Cược bau/cua/tom/ca/nai/ga -> Cú pháp: game bau cua [bau/cua/tom/ca/nai/ga] <số coin>";
+        print << "\n keobuabao: Cược keo/bua/bao -> Cú pháp: game keobuabao [keo/bua/bao] <số coin>";
+        print << "\n vongquay: Quay ngẫu nhiên giải thưởng -> Cú pháp: game vongquay <số coin>";
         print << "\n vongquaymaimoi: Tìm ngẫu nhiên tên người yêu tưởng lai -> Cú pháp: game vongquaymaimoi";
         print << "\n boitinhyeu: Tìm mức độ phù hợp của 2 người -> Cú pháp: game boitinhyeu";
+        print << "\n caro: Cờ caro (3 x 3) kinh điển [Chỉ xử lí coin ở chế độ chơi 1 người] -> Cú pháp: game caro <số coin>";
         print << "\n huongdan: Hướng dẫn chi tiết từng game -> Cú pháp: game huongdan [chanle/baucua/taixiu/keobuabao/vongquay]";
-        print << "\n *Vui lòng không đặt cược số tiền không có";
+        print << "\n *Vui lòng không đặt cược số coin không có";
         print << "\n--------------------------------------------------";
         goto ChuKy;
     } else if (a == "buff") {
@@ -651,7 +786,7 @@ ChuKy:
         string b;
         scan >> b;
         if (b == pass) {
-            print << "\n Vui lòng nhập số tiền muốn nâng: ";
+            print << "\n Vui lòng nhập số coin muốn nâng: ";
             long long c;
             scan >> c;
             if (c < 0) {
@@ -692,7 +827,7 @@ ChuKy:
         string b;
         scan >> b;
         if (b == pass) {
-            print << "\n Vui lòng nhập số tiền muốn giảm: ";
+            print << "\n Vui lòng nhập số coin muốn giảm: ";
             long long c;
             scan >> c;
             if (c > coin) {
