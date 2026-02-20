@@ -4,51 +4,44 @@
 #include <random>
 #include <string>
 
-namespace std {
+inline std::mt19937& rng() {
     static std::mt19937 gen(std::random_device{}());
+    return gen;
+}
 
-    inline int RanInt(int a, int b) {
-        std::uniform_int_distribution<int> dist(a, b);
-        return dist(gen);
-    }
+inline int RanInt(int a, int b) {
+    std::uniform_int_distribution<int> dist(a, b);
+    return dist(rng());
+}
 
-    inline int Dice() {
-        return RanInt(1, 6);
-    }
+inline int Dice() {
+    return RanInt(1, 6);
+}
 
-    inline double RandFloat(double a, double b) {
-        std::uniform_real_distribution<double> dist(a, b);
-        return dist(gen);
-    }
+inline double RandFloat(double a, double b) {
+    std::uniform_real_distribution<double> dist(a, b);
+    return dist(rng());
+}
 
-    inline std::string RanStr(int length) {
-        static const std::string chars =
-            "abcdefghijklmnopqrstuvwxyz"
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            "0123456789";
+inline std::string RanStr(int length) {
+    static const std::string chars =
+        "abcdefghijklmnopqrstuvwxyz"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "0123456789";
+    std::uniform_int_distribution<int> dist(0, chars.size() - 1);
+    std::string result;
+    result.reserve(length);
+    for (int i = 0; i < length; ++i)
+        result += chars[dist(rng())];
+    return result;
+}
 
-        std::uniform_int_distribution<int> dist(0, chars.size() - 1);
-
-        std::string result;
-        result.reserve(length);
-
-        for (int i = 0; i < length; i++)
-            result += chars[dist(gen)];
-
-        return result;
-    }
-
-    // ================================================
-    // 📌 RanStrList("a","b","c") → random 1 trong số đó
-    // ================================================
-    template<typename... Args>
-    inline std::string RanStrList(const std::string& first, const Args&... rest) {
-        const std::string arr[] = { first, rest... };
-        int size = sizeof...(rest) + 1;
-        std::uniform_int_distribution<int> dist(0, size - 1);
-        return arr[dist(gen)];
-    }
-
+template<typename... Args>
+inline std::string RanStrList(const std::string& first, const Args&... rest) {
+    const std::string arr[] = { first, rest... };
+    int size = sizeof...(rest) + 1;
+    std::uniform_int_distribution<int> dist(0, size - 1);
+    return arr[dist(rng())];
 }
 
 #endif

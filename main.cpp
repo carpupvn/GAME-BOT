@@ -2,29 +2,181 @@
 #include <bits/stdc++.h>
 #include "random.h"
 #include "time.h"
-#include "tiengviet.h"
+#include "language+.h"
 using namespace std;
 
+string username;
+long long coin = 100000;
+string COIN = to_string(coin);
+bool Logup() {
+    coin = 100000;
+    string User, Pass, labelmahoa, label;
+    fstream F("account.dat", ios::app);
+    F.close();
+    fstream f("account.dat", ios:: in);
+    print << "Vui lòng nhập tên đăng ký: "; scan >> User;
+    print << "Vui lòng nhập mật khẩu: "; scan >> Pass;
+    while (getline(f, labelmahoa)) {
+        string UserExist;
+        label = labelmahoa;
+        for (int i = 0; i < labelmahoa.size(); i++) {
+            label[i] = (char)(labelmahoa[i] - (i+1));
+        }
+        for (int i = 0; label[i] != ' ' && i < label.size(); i++) {
+            UserExist += label[i];
+        }
+        if (User == UserExist) {
+            print << "Tên đăng ký đã tồn tại!" << "\n";
+            f.close();
+            return false;
+        }
+    }
+    f.close();
+    fstream b("account.dat", ios::app);
+    if (!b) {
+        print << "Lỗi ghi file!" << "\n";
+        return false;
+    }
+    username = User;
+    COIN = to_string(coin);
+    label = User + " " + Pass + " " + COIN;
+    labelmahoa = label + "\n";
+    for (int i = 0; i < label.size(); i++) {
+        labelmahoa[i] = (char)(label[i] + (i+1));
+    }
+    b << labelmahoa << flush;
+    b.close();
+    return true;
+}
+
+bool Login() {
+    coin = 100000;
+    string User, Pass, labelmahoa, label;
+    print << "Nhập tên đăng nhập: ";
+    scan >> User;
+    print << "Nhập mật khẩu: ";
+    scan >> Pass;
+    fstream f("account.dat", ios::in);
+    while (getline(f, labelmahoa)) {
+        string U, P, C;
+        label = labelmahoa;
+        for (int i = 0; i < labelmahoa.size(); i++) {
+            label[i] = (char)(labelmahoa[i] - (i+1));
+        }
+        bool barrier1 = false, barrier2 = false;
+        for (int i = 0; i < label.size(); i++) {
+            if (label[i] == ' ') {
+                if (!barrier1) {
+                    barrier1 = true;
+                } else if (!barrier2) {
+                    barrier2 = true;
+                }
+                continue;
+            }
+            if (!barrier1) {
+                U += label[i];
+            } else if (!barrier2) {
+                P += label[i];
+            } else {
+                C += label[i];
+            }
+        }
+        if (!C.empty() && C.back() == '\n') C.pop_back();
+        if (U == User && P == Pass) {
+            f.close();
+            coin = stoll(C);
+            username = U;
+            return true;
+        }
+    }
+    f.close();
+    print << "Tên hoặc mật khẩu không đúng!";
+    return false;
+}
+void SaveData() {
+    vector<string> lines;
+    fstream f("account.dat", ios::in);
+    if (f) {
+        string labelmahoa;
+        while (getline(f, labelmahoa)) {
+            lines.push_back(labelmahoa);
+        }
+        f.close();
+    }
+
+    fstream f_out("account.dat", ios::out | ios::trunc);
+    if (!f_out) return;
+
+    for (string &labelmahoa : lines) {
+        string label = labelmahoa;
+        for (int i = 0; i < labelmahoa.size(); i++) {
+            label[i] = (char)(labelmahoa[i] - (i+1));
+        }
+
+        size_t pos1 = label.find(' ');
+        if (pos1 == string::npos) {
+            f_out << labelmahoa << "\n";
+            continue;
+        }
+        string UserExist = label.substr(0, pos1);
+
+        if (UserExist == username) {
+            size_t pos2 = label.find(' ', pos1 + 1);
+            if (pos2 == string::npos) continue;
+            string Pass = label.substr(pos1 + 1, pos2 - pos1 - 1);
+            string labelMoi = username + " " + Pass + " " + to_string(coin) + "\n";
+            string labelmahoaMoi = labelMoi;
+            for (int i = 0; i < labelMoi.size(); i++) {
+                labelmahoaMoi[i] = (char)(labelMoi[i] + (i+1));
+            }
+            f_out << labelmahoaMoi;
+        } else {
+            f_out << labelmahoa << "\n";
+        }
+    }
+    f_out.close();
+}
+
 int main() {
+    fstream f("account.dat", ios::app);
+    f.close();
     bool jumped = false;
-    string username;
-    print << " Vui lòng nhập username: ";
-    getline(scan,username);
-    string PhienBan = "2.5.150226", pass = "cudem1981", TacGia = "NguyenPhuoc";
-    long long HuCL = 5000000, HuTX = 5000000, coin = 100000;
+    string PhienBan = "3.0.200226", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    long long HuCL = 5000000, HuTX = 5000000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
     print << "\n Số game được hỗ trợ: 9";
     print << "\n Sử dụng 'help' để xem danh sách lệnh được hỗ trợ";
-    print << "\n Số coin hiện tại: " << coin;
     print << "\n Liên hệ hỗ trợ: 0936974180";
     print << "\n Phát hiện bất kỳ lỗi nào xin liên hệ số điện thoại hỗ trợ.";
-    print << "\n Cảm ơn " << username << " đã sử dụng bot!";
+    print << "\n Cảm ơn bạn đã sử dụng bot!";
     print << "\n Tác giả: " << TacGia;
-    print << "\n--------------------------------------------------";
+    int choice;
+    while (true) {
+        print << "\nVui lòng chọn đăng ký hoặc đăng nhập:\n 1. Đăng ký\n 2. Đăng nhập\n Bất kỳ. Thoát\n Chọn: ";
+        string Choice;
+        scan >> Choice;
+        if (Choice == "1") {
+            if (Logup()) {
+                print << ">> Đăng ký thành công! Chúc bạn chơi vui vẻ";
+                break;
+            }
+        } else if (Choice == "2") {
+            if (Login()) {
+                print << ">> Đăng nhập thành công! Chúc bạn chơi vui vẻ";
+                break;
+            }
+        } else {
+            for (int i = 6; i > 0; i--) {
+                print << "\r Chương trình sẽ tắt sau: " << i - 1 << " giây";
+                wait(1s);
+            }
+            return 0;
+        }
+    }
 ChuKy:
     string a = "";
-    print << "\n\n Nhập lệnh: ";
+    print << "\n\n Nhập lệnh ('help' -> Hướng dẫn): ";
     scan >> a;
     while (false) {
             Loi:
@@ -39,6 +191,7 @@ ChuKy:
     }
     }
     if (a == "exit") {
+        SaveData();
         print << "\n";
         for (int i = 4; i!= 0; i--) {
             print << "\rChương trình sẽ tắt sau: " << i-1 << " " ;
@@ -135,7 +288,7 @@ ChuKy:
             if ((c == "tai") && (KetQuaSo >= 11)) {
                 if ((dice1 == dice2) && (dice1 == dice3)) {
                     KetQuaChu = "Nổ hũ! Bạn đã thắng lớn!";
-                    coin += d*80/100 + HuCL*20/100;
+                    coin += d*80/100 + HuTX*20/100;
                     HuTX -= HuTX*20/100;
                 } else {
                     KetQuaChu = "Bạn đã thắng!";
@@ -164,7 +317,7 @@ ChuKy:
             } else if ((c == "xiu") && (KetQuaSo <= 10)) {
                 if ((dice1 == dice2) && (dice1 == dice3)) {
                     KetQuaChu = "Nổ hũ! Bạn đã thắng lớn!";
-                    coin += d*80/100 + HuCL*20/100;
+                    coin += d*80/100 + HuTX*20/100;
                     HuTX -= HuTX*20/100;
                 } else {
                     KetQuaChu = "Bạn đã thắng!";
@@ -382,7 +535,7 @@ ChuKy:
                 goto ChuKy;
             } else if (b == "caro") {
                 long long c = 0;
-                cin >> c;
+                scan >> c;
                 if (c < 0 || c > coin) {
                     jumped = true;
                     scan.ignore(1000, '\n');
@@ -395,7 +548,7 @@ ChuKy:
                     {' ', ' ', ' '}
                 };
                 wait(0.5s);
-                print << "\n---CỜ CARO----------------------------------------"
+                print << "\n---CỜ TIC TAC TOE---------------------------------"
                       << "\n Bàn cờ có dạng:"
                       << "\n    0   1   2"
                       << "\n 0    |   |   "
@@ -418,6 +571,7 @@ ChuKy:
                 if (TraLoi == '1') {
                     int y = -2, x = -2;
                     while(true) {
+                        Error = false;
                         Tie = true;
                         print << "\n  Nhập vị trí: ";
                         scan >> x >> y;
@@ -426,7 +580,6 @@ ChuKy:
                             return 0;
                         } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
                             Error = true;
-                            break;
                         } else {
                             chess[y][x] = 'X';
                         } if (Error) {
@@ -508,6 +661,7 @@ ChuKy:
                 } else if (TraLoi == '2') {
                     int y = -2, x = -2;
                     while(true) {
+                        Error = false;
                         Tie = true;
                         print << "\n  Nhập vị trí(1): ";
                         scan >> x >> y;
@@ -516,7 +670,6 @@ ChuKy:
                             return 0;
                         } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
                             Error = true;
-                            break;
                         } else {
                             chess[y][x] = 'X';
                         } if (Error) continue;
@@ -534,7 +687,7 @@ ChuKy:
                             print << "\n Không hỗ trợ xử lí coin trong chế độ chơi 2 người";
                             print << "\n--------------------------------------------------";
                             break;
-                        }       
+                        }
                         for (int i = 0; i < 3; i++) {
                             for (int j = 0; j < 3; j++) {
                                 if (chess[i][j] == ' ') {
@@ -558,7 +711,6 @@ ChuKy:
                             goto ChuKy;
                         } else if ((y < 0 || y > 2) || (x < 0 || x > 2) || (chess[y][x] != ' ')) {
                             Error = true;
-                            break;
                         } else {
                             chess[y][x] = 'O';
                         } if (Error) continue;
@@ -757,7 +909,6 @@ ChuKy:
         print << "\n mycard: Xem số coin hiện tại";
         print << "\n botinfo: Xem thông tin bot";
         print << "\n banquyen: Xem bản quyền bot";
-        print << "\n thayten <username>: Thay username";
         print << "\n *Các lệnh admin sẽ không được hiển thị ở đây*";
         print << "\n *Nhập lệnh vui lòng không viết hoa và bỏ dấu*";
         print << "\n--------------------------------------------------";
@@ -868,14 +1019,6 @@ ChuKy:
             print << "\nMật khẩu sai!";
             goto ChuKy;
         }
-    } else if (a == "thayten") {
-        string b;
-        getline(scan,b);
-        username = b;
-        print << "\n---Đã Sửa Hệ Thống--------------------------------";
-        print << "\n Username mới của bạn: " << username;
-        print << "\n--------------------------------------------------";
-        goto ChuKy;
     } else {
         jumped = true;
         scan.ignore(1000, '\n');
