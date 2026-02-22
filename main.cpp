@@ -40,15 +40,14 @@ bool Logup() {
     username = User;
     COIN = to_string(coin);
     label = User + " " + Pass + " " + COIN;
-    labelmahoa = label + "\n";
+    labelmahoa = label;
     for (int i = 0; i < label.size(); i++) {
         labelmahoa[i] = (char)(label[i] + (i+1));
     }
-    b << labelmahoa << flush;
+    b << labelmahoa << "\n" << flush;
     b.close();
     return true;
 }
-
 bool Login() {
     coin = 100000;
     string User, Pass, labelmahoa, label;
@@ -124,24 +123,23 @@ void SaveData() {
             size_t pos2 = label.find(' ', pos1 + 1);
             if (pos2 == string::npos) continue;
             string Pass = label.substr(pos1 + 1, pos2 - pos1 - 1);
-            string labelMoi = username + " " + Pass + " " + to_string(coin) + "\n";
+            string labelMoi = username + " " + Pass + " " + to_string(coin);
             string labelmahoaMoi = labelMoi;
             for (int i = 0; i < labelMoi.size(); i++) {
                 labelmahoaMoi[i] = (char)(labelMoi[i] + (i+1));
             }
-            f_out << labelmahoaMoi;
+            f_out << labelmahoaMoi << "\n";
         } else {
             f_out << labelmahoa << "\n";
         }
     }
     f_out.close();
 }
-
 int main() {
     fstream f("account.dat", ios::app);
     f.close();
     bool jumped = false;
-    string PhienBan = "3.0.200226", pass = "cudem1981", TacGia = "NguyenPhuoc";
+    string PhienBan = "3.1.220226", pass = "cudem1981", TacGia = "NguyenPhuoc";
     long long HuCL = 5000000, HuTX = 5000000;
     print << "\n---GAME BOT---------------------------------------";
     print << "\n Phiên bản hiện tại: " << PhienBan;
@@ -151,6 +149,7 @@ int main() {
     print << "\n Phát hiện bất kỳ lỗi nào xin liên hệ số điện thoại hỗ trợ.";
     print << "\n Cảm ơn bạn đã sử dụng bot!";
     print << "\n Tác giả: " << TacGia;
+    print << "\n--------------------------------------------------";
     int choice;
     while (true) {
         print << "\nVui lòng chọn đăng ký hoặc đăng nhập:\n 1. Đăng ký\n 2. Đăng nhập\n Bất kỳ. Thoát\n Chọn: ";
